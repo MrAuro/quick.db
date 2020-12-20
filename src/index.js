@@ -1,6 +1,7 @@
 // Require Database
 const Database = require("better-sqlite3");
 const util = require("util");
+let db;
 
 // Declare Methods
 var methods = {
@@ -27,13 +28,18 @@ module.exports = {
      * Create Database Under Conditions
      * use db.create('your custom path')
      */
-    create: async function(key){
-        let db;
-        await key;
-        if(!key) throw new TypeError("No path specified. Need Help? Check Out: discord.gg/plexidev");
-        if(key.includes('.sqlite')){
-            return db = new Database(key);
-        }else return db = new Database(key + '.sqlite');
+    init: function (key) {
+        if (!key) {
+            throw new TypeError(
+                "No key specified. Need Help? Check Out: discord.gg/plexidev"
+            );
+        } else {
+            if (key.includes('.sqlite')) {
+                return db = new Database(key)
+            } else {
+                return db = new Database(key + '.sqlite')
+            }
+        }
     },
 
     /**
@@ -372,7 +378,7 @@ function arbitrate(method, params, tableName) {
     };
 
     // Access Database
-    if(!db) throw new TypeError("No db.create() found. Need Help? Check Out: discord.gg/plexidev");
+    if(db === undefined) { db = new Database("json.sqlite")}
     db.prepare(
         `CREATE TABLE IF NOT EXISTS ${options.table} (ID TEXT, json TEXT)`
     ).run();

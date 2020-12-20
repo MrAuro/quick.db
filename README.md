@@ -17,8 +17,8 @@ Quick.db is an open-source package meant to provide an easy way for beginners an
 ```js
 const db = require('quick.db');
 
-// Declaring the database file name
-db.create('myDatabase')
+// Declaring the database file name, if not specified, database will be stored as "json.sqlite"
+db.init('myDatabase')
 // *.sqlite is automatically appended to the filename
 
 // Setting an object in the database:
